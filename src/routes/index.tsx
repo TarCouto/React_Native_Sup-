@@ -12,20 +12,20 @@ import { AppRoutes } from './app.routes';
 import { Loading } from '@components/Loading';
 
 export function Routes() {
-    const { colors } = useTheme();
+  const { colors } = useTheme();
 
-    const { user, isLoadingUserStorageData } = useAuth();
+  const { user, isLoadingUserStorageData } = useAuth();
 
-    console.log("USUÁRIO LOGADO =>", user);
+  console.log("USUÁRIO LOGADO =>", user);
 
-    const theme = DefaultTheme;
-    theme.colors.background = colors.gray[700];
+  const theme = DefaultTheme;
+  theme.colors.background = colors.gray[700];
 
-    if(isLoadingUserStorageData) {
-      return <Loading />
-    }
+  if (isLoadingUserStorageData) {
+    return <Loading />
+  }
   return (
-     <Box flex={1} bg="gray.700">
+    <Box flex={1} bg="gray.700">
       <NavigationContainer theme={theme}>
         <AppRoutes />
       </NavigationContainer>

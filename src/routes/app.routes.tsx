@@ -2,7 +2,7 @@ import { Platform } from 'react-native';
 import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import HomeSvg from '@assets/home.svg'
-import HistorySvg from '@assets/history.svg'
+import HistorySvg from '@assets/chat (2).svg'
 import ProfilePhotoSvg from '@assets/profile.svg'
 
 import { Home } from '@screens/Home';
@@ -11,6 +11,7 @@ import { Profile } from '@screens/Profile';
 import { Foodlist } from '@screens/FoodList';
 import { useTheme } from 'native-base';
 import React from 'react';
+import ChatBot from '@screens/ChatBot';
 
 type AppRoutes = {
     home: undefined;
@@ -76,7 +77,7 @@ export function AppRoutes() {
 
       <Screen 
         name='exercise'
-        component={Foodlist}
+        component={ChatBot}
         options={{ tabBarButton: () => null }}
       />
     </Navigator>

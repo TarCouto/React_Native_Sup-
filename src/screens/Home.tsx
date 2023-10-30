@@ -28,14 +28,7 @@ export function Home() {
       <HStack>
         <FlatList
           data={groups}
-          keyExtractor={item => item}
-          renderItem={({ item }) => (
-            <Group
-              name={item}
-              isActive={groupSelected === item}
-              onPress={() => setGroupSelected(item)}
-            />
-          )}
+          renderItem={({ item }) => <Text>{item}</Text>}
           horizontal
           showsHorizontalScrollIndicator={false}
           _contentContainerStyle={{
@@ -49,7 +42,7 @@ export function Home() {
       <VStack px={8}>
         <HStack justifyContent="space-between" mb={5}>
           <Heading color="gray.200" fontSize="md" fontFamily="heading">
-            Foods
+            Historico do Chat
           </Heading>
 
           <Text color="gray.200" fontSize="sm">

@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 import { VStack, Image, Text, Center, Heading, ScrollView, useToast } from "native-base";
 
-import LogoSvg from '@assets/logo(2).svg';
+import LogoSvg from '@assets/SUP!.svg';
 import BackgroundImg from '@assets/BAckGrounGalax.png';
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
@@ -62,13 +62,11 @@ export function SignIn() {
                 <Image
                     source={BackgroundImg}
                     defaultSource={BackgroundImg}
-                    alt="Pessoas treinando"
                     resizeMode="contain"
                     position="absolute"
                 />
                 <Center my={24}>
                     <LogoSvg />
-                    <Text color="gray.100" fontSize='sm'> Alimentando conexões, fortalecendo vidas.</ Text>
                 </Center>
                 <Center>
                     <Heading color="gray.100" fontSize="xl" mb={6} fontFamily="heading">

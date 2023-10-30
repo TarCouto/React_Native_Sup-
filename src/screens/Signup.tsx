@@ -7,7 +7,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { api } from "@services/api";
 
-import LogoSvg from '@assets/logo(2).svg';
+import LogoSvg from '@assets/SUP!.svg';
 import BackgroundImg from '@assets/BAckGrounGalax.png';
 
 import { Input } from "@components/Input";
@@ -84,10 +84,6 @@ export function SignUp() {
 
         <Center my={24}>
           <LogoSvg />
-
-          <Text color="gray.100" fontSize="sm" mt={3}>
-            Alimentando conexões, fortalecendo vidas.
-          </Text>
         </Center>
 
         <Center>
