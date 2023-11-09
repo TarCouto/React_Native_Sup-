@@ -1,23 +1,23 @@
-import React from 'react';
-
-import { useState } from 'react';
+// Home.tsx
+import React, { useState } from 'react';
+import { VStack, FlatList, Text, Heading, HStack } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
-import { Group } from '@components/GrupRestaurants';
 import { HomeHeader } from '@components/HomeHeader';
-import { FlatList, Heading, HStack, Text, VStack } from 'native-base';
-import { RastaurantCard } from '@components/RestaurantsCard';
+// Ajuste o caminho do import conforme necessário
 import { AppNavigatorRoutesProps } from '@routes/app.routes';
-
-
+import { CompaniesManager } from '@components/CompaniesManager';
 
 export function Home() {
+  // Estado para os grupos de restaurantes
+  const [groups, setGroups] = useState(['Comercios', 'Padaria', 'Restaurantes']);
 
-  const [groups, setGroups] = useState(['Comercios', 'Padaria', 'Rstaurantes']);
-  const [foods, setExercises] = useState(['Puxada frontal', 'Remada curvada', 'Remada unilateral', 'Levantamento terras']);
-  const [groupSelected, setGroupSelected] = useState('Costas');
+  // Estado para os alimentos (esta parte do estado parece estar relacionada a exercícios, então talvez seja uma mistura de contextos)
+ 
 
+  // Hook de navegação do React Navigation
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
+  // Função para lidar com a navegação (aparentemente para detalhes de alimentos/exercícios, mas isso depende do seu fluxo de aplicativo)
   function handleOpenFoodDetails() {
     navigation.navigate('exercise');
   }
@@ -25,42 +25,10 @@ export function Home() {
   return (
     <VStack flex={1}>
       <HomeHeader />
-      <HStack>
-        <FlatList
-          data={groups}
-          renderItem={({ item }) => <Text>{item}</Text>}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          _contentContainerStyle={{
-            px: 8,
-          }}
-          my={10}
-          maxH={10}
-          minH={10}
-        />
-      </HStack>
-      <VStack px={8}>
-        <HStack justifyContent="space-between" mb={5}>
-          <Heading color="gray.200" fontSize="md" fontFamily="heading">
-            Historico do Chat
-          </Heading>
-
-          <Text color="gray.200" fontSize="sm">
-            {foods.length}
-          </Text>
-        </HStack>
-        <FlatList
-          data={foods}
-          keyExtractor={item => item}
-          renderItem={({ item }) => (
-            <RastaurantCard onPress={handleOpenFoodDetails} />
-          )}
-          showsVerticalScrollIndicator={false}
-          _contentContainerStyle={{
-            paddingBottom: 20
-          }}
-        />
-      </VStack>
+      <Text color="gray.200" fontSize="md" fontFamily="heading" ml={'10'} mb={0} mt={6} px={2}>
+        Adcione seu Cadastro da sua empresa
+      </Text>
+      <CompaniesManager />
     </VStack>
   );
 }
