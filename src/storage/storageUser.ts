@@ -5,6 +5,7 @@ import { AUTH_STORAGE, USER_STORAGE } from './storageConfig';
 import { UserDTO } from "@dtos/userDTO";
 
 export async function storageUserSave(user: UserDTO) {
+  console.log("Salvando usuário no AsyncStorage:", user);
   await AsyncStorage.setItem(USER_STORAGE, JSON.stringify(user))
 }
 
@@ -12,6 +13,8 @@ export async function storageUserGet() {
     const storage = await AsyncStorage.getItem(USER_STORAGE);
   
     const user: UserDTO = storage ? JSON.parse(storage) : {};
+
+    console.log("Usuário recuperado do AsyncStorage:", user);
   
     return user
   }

@@ -47,7 +47,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   async function signIn(email: string, password: string): Promise<void> {
     try {
-      const { data } = await api.post('/sessions', { email, password });
+      const { data } = await api.post('/api/usuarios/login', { email, password });
+
+      console.log("Dados recebidos da API:", data);
 
       if(data.user && data.token) {
         await storageUserAndTokenSave(data.user, data.token);

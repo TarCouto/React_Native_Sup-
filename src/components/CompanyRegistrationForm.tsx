@@ -56,8 +56,8 @@ export const CompanyRegistrationForm: React.FC<Props> = ({ company, setIsEditMod
   const handleSubmitWithNoAPI = async () => {
     setIsSubmitting(true);
     try {
-      // Substitua isso pela sua chamada de API quando estiver pronta
-      handleAddCompany(formData);
+      // Chamada de função para adicionar a nova empresa ao estado
+      handleAddCompany({ ...formData, id: Date.now().toString() }); // Use Date.now() como um ID temporário
       setIsEditMode(false); // Sair do modo de edição
     } catch (error) {
       console.error('Erro ao enviar o formulário:', error);
@@ -65,6 +65,7 @@ export const CompanyRegistrationForm: React.FC<Props> = ({ company, setIsEditMod
       setIsSubmitting(false);
     }
   };
+  
 
   // Lida com a mudança de entrada do formulário
   const handleInputChange = (name: keyof Company, value: string) => {

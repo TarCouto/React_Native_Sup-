@@ -14,21 +14,22 @@ export const CompaniesManager: React.FC = () => {
     loadCompanies();
   }, []);
 
-  const handleAddCompany = (newCompany: Company) => {
-    // Aqui, adicionamos a nova empresa ao estado local.
-    // Em um cenário real, você substituiria isso por uma chamada POST para a sua API.
-    const newId = Math.random().toString(); // Isso é apenas um placeholder. Use um método adequado para gerar IDs.
-    const updatedCompanies = [...companies, { ...newCompany, id: newId }];
-    setCompanies(updatedCompanies);
-  };
-
+  
   const loadCompanies = async () => {
     try {
-      const response = await api.get<Company[]>('/empresas');
-      setCompanies(response.data);
+      const response = await api.get('/empresas');
+      // Certifique-se de acessar o array de empresas corretamente
+      setCompanies(response.data._embedded.empresas);
     } catch (error) {
       console.error('Erro ao carregar as empresas:', error);
     }
+  };
+
+  const handleAddCompany = (newCompany: Company) => {
+    // Use um método mais robusto para gerar um ID, se necessário
+    const newId = Math.random().toString();
+    // Agora você está atualizando um array, não um objeto
+    setCompanies((currentCompanies) => [...currentCompanies, { ...newCompany, id: newId }]);
   };
 
   const handleEdit = (company: Company) => {

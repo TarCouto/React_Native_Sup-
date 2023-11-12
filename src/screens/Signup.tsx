@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigation } from "@react-navigation/native";
 import { VStack, Image, Text, Center, Heading, ScrollView, useToast } from "native-base";
 import { useForm, Controller } from 'react-hook-form';
@@ -15,22 +15,23 @@ import { Button } from "@components/Button";
 import { AppError } from '@utils/AppError';
 import { useAuth } from '@hooks/useAuth';
 import React from 'react';
+import { AppNavigatorRoutesProps } from '@routes/app.routes';
+import { AuthContext } from '@contexts/AuthContexts';
 
 
 
 type FormDataProps = {
-  name: string;
+  nome: string;
   email: string;
-  password: string;
+  senha: string;
   password_confirm: string;
 }
 
 const signUpSchema = yup.object({
-  name: yup.string().required('Informe o nome'),
+  nome: yup.string().required('Informe o nome'),
   email: yup.string().required('Informe o e-mail').email('E-mail inválido'),
-  password: yup.string().required('Informe a senha').min(6, 'A senha deve ter pelo menos 6 dígitos.'),
+  senha: yup.string().required('Informe a senha').min(6, 'A senha deve ter pelo menos 6 dígitos.'),
   password_confirm: yup.string()
-    .oneOf([yup.ref('password')], 'As senhas não coincidem')
     .required('Confirme sua senha.'),
 });
 
@@ -40,37 +41,65 @@ export function SignUp() {
 
   const toast = useToast();
 
-  const { signIn } = useAuth();
+  const { signIn } = useContext(AuthContext);
 
   const { control, handleSubmit, formState: { errors }, getValues } = useForm<FormDataProps>({
     resolver: yupResolver(signUpSchema),
   });
 
-  const navigation = useNavigation();
 
   function handleGoBack() {
     navigation.goBack();
   }
 
-  async function handleSignUp({ name, email, password, password_confirm }: FormDataProps) {
+
+  async function handleSignUp({ nome, email, senha, password_confirm }: FormDataProps) {
     try {
-      setIsLoading(true)
-
-      await api.post('/users', { name, email, password });
-      await signIn(email, password)
+      setIsLoading(true);
+      await api.post('/api/usuarios/registrar', { nome, email, senha });
+      await signIn(email, senha);
+      console.log("Registro e login realizados com sucesso.");
     } catch (error) {
+      console.log("Erro no handleSignUp:", error);
       setIsLoading(false);
-      const isAppError = error instanceof AppError;
-
-      const title = isAppError ? error.message : 'Não foi possível criar a conta. Tente novamente mais tarde';
-
-      toast.show({
-        title,
-        placement: 'top',
-        bgColor: 'red.500'
-      })
+      let message = 'Não foi possível criar a conta. Tente novamente mais tarde.';
+      if (error instanceof AppError) {
+        if (error.message.includes('403')) {
+          message = 'Cadastro não autorizado. Verifique se já possui cadastro ou entre em contato com o suporte.';
+        } else {
+          message = error.message;
+        }
+      }
     }
   }
+
+
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
+
+  async function handleSignUpFake({ nome, email, senha, password_confirm }: FormDataProps) {
+    try {
+      setIsLoading(true);
+
+      // Código omitido para brevidade: O registro do usuário é feito aqui.
+
+      // Se o registro for bem-sucedido, a função signIn atualiza o estado do usuário
+      // Assumindo que signIn atualiza o estado global do usuário corretamente
+
+      // Navegação para a tela principal do AppRoutes
+      navigation.navigate('home'); // 'home' deve ser o nome da rota definida nas rotas do AppRoutes
+
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(true);
+    }
+  }
+
+  function goToHome() {
+    navigation.navigate('home');
+  }
+
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
       <VStack flex={1} px={10} pb={16}>
@@ -93,13 +122,13 @@ export function SignUp() {
 
           <Controller
             control={control}
-            name="name"
+            name="nome"
             render={({ field: { onChange, value } }) => (
               <Input
                 placeholder="Nome"
                 onChangeText={onChange}
                 value={value}
-                errorMessage={errors.name?.message}
+                errorMessage={errors.nome?.message}
               />
             )}
           />
@@ -119,7 +148,7 @@ export function SignUp() {
           />
           <Controller
             control={control}
-            name="password"
+            name="senha"
             rules={{
               required: 'Informe sua senha'
             }}
@@ -129,7 +158,7 @@ export function SignUp() {
                 secureTextEntry
                 onChangeText={onChange}
                 value={value}
-                errorMessage={errors.password?.message}
+                errorMessage={errors.senha?.message}
               />
             )}
           />
@@ -143,7 +172,7 @@ export function SignUp() {
                 onChangeText={onChange}
                 value={value}
                 errorMessage={errors.password_confirm?.message}
-                onSubmitEditing={handleSubmit(handleSignUp)}
+                onSubmitEditing={handleSubmit(goToHome)}
                 returnKeyType="send"
               />
             )}

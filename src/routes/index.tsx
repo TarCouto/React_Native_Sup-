@@ -6,7 +6,7 @@ import { useTheme, Box } from 'native-base';
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 
 import { AuthRoutes } from "./auth.routes";
-import { AuthContext } from '@contexts/AuthContexts';
+import { AuthContext, AuthContextProvider } from '@contexts/AuthContexts';
 import { useAuth } from '@hooks/useAuth';
 import { AppRoutes } from './app.routes';
 import { Loading } from '@components/Loading';
@@ -26,14 +26,16 @@ export function Routes() {
   }
   return (
     <Box flex={1} bg="gray.700">
+
       <NavigationContainer theme={theme}>
-        <AuthRoutes />
+        <AppRoutes />
       </NavigationContainer>
+
     </Box>
   );
 }
 
+//<AuthContextProvider>
+//</AuthContextProvider>
+
 //{user.id ? <AppRoutes /> : <AuthRoutes />}
-
-
-//
